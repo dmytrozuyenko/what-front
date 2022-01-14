@@ -13,6 +13,7 @@ pipeline {
     stage("build") {
       steps {
         sh 'npm install'
+        sh "echo -e '/*\n!dist/*' > .npmignore"
         sh 'npm run build'
 //         script {
 //           writefile(file: 'build.sh', text:
