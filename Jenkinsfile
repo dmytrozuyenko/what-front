@@ -38,7 +38,7 @@ pipeline {
 //         sh 'npm install -g npm-cli-login'
 //         sh 'npm-cli-login -u admin -p 6gYv6xC5 -e d.zuyenko@gmail.com'
         sh 'cat .npmrc'
-        sh 'npm publish --access=public'
+        sh 'npm publish --registry http://34.132.98.95:8081/repository/what-front/'
         sh 'ls -alh'
       }
     }  
