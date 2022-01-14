@@ -3,7 +3,7 @@ pipeline {
   tools {
     nodejs "node"
   }
-//   stages {
+  stages {
 //     stage ('cleanup') {
 //       steps {
 //         writeFile file: 'cleanup.sh', text:
