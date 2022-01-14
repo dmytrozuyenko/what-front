@@ -39,8 +39,8 @@ pipeline {
         sh 'ls -alh'
       }
     }  
-    post {
-      success {
+    stage('sonarqube-analysis') {
+      steps {
         script {
           def scannerHome = tool 'sonarqube';
           withSonarQubeEnv('sonarqube') {
