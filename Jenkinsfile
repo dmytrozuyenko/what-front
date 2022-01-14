@@ -13,9 +13,11 @@ pipeline {
       steps {
         sh 'npm install'
 //         sh 'npm test'
+        sh 'pwd'
         sh 'ls -alh'
         sh "echo -e '/*\n!dist/*' > .npmignore"
         sh 'npm run build'
+        sh 'pwd'
         sh 'ls -alh'
       }
     }  
