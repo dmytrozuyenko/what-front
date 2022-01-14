@@ -22,9 +22,13 @@ pipeline {
 //         sh 'npm test'
         sh 'pwd'
         sh 'ls -alh'
-        sh "echo -e '/*\n!dist/*' > .npmignore"
+//         sh "echo -e '/*\n!dist/*' > .npmignore"
         sh 'npm run build'
         sh 'pwd'
+        sh 'ls -alh'
+        sh 'cat package.json'
+        sh 'npm version patch'
+        sh 'npm pack'
         sh 'ls -alh'
       }
     }  
