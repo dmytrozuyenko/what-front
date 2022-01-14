@@ -3,14 +3,14 @@ pipeline {
   tools {
     nodejs "node"
   }
-  stages {
-    stage ('cleanup') {
-      steps {
-        writeFile file: 'cleanup.sh', text:
-        "rm -rf /var/lib/jenkins/workspace/what-front_dev/"
-        sh 'bash cleanup.sh'
-      }
-    }
+//   stages {
+//     stage ('cleanup') {
+//       steps {
+//         writeFile file: 'cleanup.sh', text:
+//         "rm -rf /var/lib/jenkins/workspace/what-front_dev/"
+//         sh 'bash cleanup.sh'
+//       }
+//     }
 //     stage ('clone-sources') {
 //       steps {
 //         git url: 'https://github.com/dmytrozuyenko/what-front.git'
