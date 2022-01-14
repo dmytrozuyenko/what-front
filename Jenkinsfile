@@ -6,7 +6,7 @@ pipeline {
   stages {
     stage ('cleanup') {
       steps {
-        writeFile file: 'cleanup.sh', text
+        writeFile file: 'cleanup.sh', text:
         "rm -rf /var/lib/jenkins/workspace/what-front_dev/"
         sh 'bash cleanup.sh'
       }
