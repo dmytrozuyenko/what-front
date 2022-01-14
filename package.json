@@ -5,6 +5,9 @@
   "license": "MIT",
   "author": "",
   "main": "index.js",
+  "publishConfig": {
+    "registry": "http://34.132.98.95:8081/repository/what-front/"
+  },
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack serve --config config/webpack.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js",
