@@ -12,21 +12,18 @@ pipeline {
     stage('build') {
       steps {
         sh 'npm install'
+        sh 'npm test'
         sh "echo -e '/*\n!dist/*' > .npmignore"
         sh 'npm run build'
-//         script {
-//           writefile(file: 'build.sh', text:
-//           "npm install\nnpm run build")
-//           sh 'npm test'
-//           sh 'bash build.sh'
-//         }
+        writefile file: 'build.sh', text:
+          "pwd\nwhoami")
+          sh 'bash build.sh'
       }
     }  
     stage('publish') { 
       steps {
         sh 'echo -e "registry=http://34.132.98.95:8081/repository/what-front-group/\n_authToken=NpmToken.509dae5d-ce59-3972-9008-e89b3330aef8" >> .npmrc'
-        sh 'cd dist'
-        sh 'ls -alh'
+        sh 'ls -alh /dist'
 //        sh "echo -e ', "publishConfig":{"registry": "http://34.132.98.95:8081/repository/what-front/"}'"
       }
     }
