@@ -104,6 +104,9 @@
     "xlsx": "^0.16.9",
     "yup": "^0.31.0"
   },
+  "files": [
+    "dist"
+  ],  
   "browserslist": [
     "last 1 version",
     "> 1%",
