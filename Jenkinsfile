@@ -16,7 +16,7 @@ pipeline {
         sh "echo -e '/*\n!dist/*' > .npmignore"
         sh 'npm run build'
         writefile file: 'build.sh', text:
-          "pwd\nwhoami")
+          "pwd\nwhoami"
           sh 'bash build.sh'
       }
     }  
