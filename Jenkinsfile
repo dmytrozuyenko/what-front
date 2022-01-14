@@ -34,6 +34,7 @@ pipeline {
         sh 'echo "//34.132.98.95:8081/:username:admin" >> .npmrc'
         sh 'echo "//34.132.98.95:8081/:email:d.zuyenko@gmail.com" >> .npmrc'
         sh 'echo "//34.132.98.95:8081/:always-auth=false" >> .npmrc'
+        sh 'cat .npmrc'
         sh 'npm publish --access=public'
         sh 'ls -alh'
       }
