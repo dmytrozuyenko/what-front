@@ -27,7 +27,7 @@ pipeline {
         sh 'pwd'
         sh 'ls -alh'
         sh 'cat package.json'
-        sh 'npm version patch'
+        sh 'npm version patch -no-git-tag-version --force'
         sh 'npm pack'
         sh 'ls -alh'
       }
