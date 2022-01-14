@@ -7,7 +7,6 @@ pipeline {
     stage ('clone-sources') {
       steps {
         git url: 'https://github.com/dmytrozuyenko/what-front.git'
-        sh "pwd"
       }
     }
     stage("build") {
@@ -22,12 +21,15 @@ pipeline {
 //           sh 'bash build.sh'
 //         }
       }
+      stage('publish') { 
+       steps {
+         sh 'echo -e "registry=http://34.132.98.95:8081/repository/what-front-group/\n_authToken=NpmToken.509dae5d-ce59-3972-9008-e89b3330aef8" >> .npmrc'
+//          sh "echo -e ', "publishConfig":{"registry": "http://34.132.98.95:8081/repository/what-front/"}'"
+       }  
     }
   }
-//     stage('publish') { 
-//       steps {
+//     
 //         writefile file: 'publish.sh', text:
-//           "echo -e '/*\n!dist/*' > .npmignore"
 //           'echo -e "registry=http://34.132.98.95:8081/repository/what-front-group/\n_authToken=NpmToken.509dae5d-ce59-3972-9008-e89b3330aef8" >> .npmrc'
 //           "sed -i 's/"index.js",/"index.js", "publishConfig":{"registry": "http://34.132.98.95:8081/repository/what-front/"},/' package.json"
 //           "sed -i 's/"browserslist":/"files": ["dist"],  "browserslist":/' package.json"  
