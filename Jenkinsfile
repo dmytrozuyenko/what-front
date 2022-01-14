@@ -11,20 +11,24 @@ pipeline {
     }
     stage('build') {
       steps {
-//         sh 'npm install'
-// //         sh 'npm test'
-//         sh "echo -e '/*\n!dist/*' > .npmignore"
-//         sh 'npm run build'
-        writeFile file: 'build.sh', text:
-          "pwd\nwhoami"
-          sh 'bash build.sh'
+        sh 'npm install'
+//         sh 'npm test'
+        sh 'ls -alh'
+        sh "echo -e '/*\n!dist/*' > .npmignore"
+        sh 'npm run build'
+        sh 'ls -alh'
       }
     }  
     stage('publish') { 
       steps {
         sh 'echo -e "registry=http://34.132.98.95:8081/repository/what-front-group/\n_authToken=NpmToken.509dae5d-ce59-3972-9008-e89b3330aef8" >> .npmrc'
-        sh 'ls -alh /dist'
-//        sh "echo -e ', "publishConfig":{"registry": "http://34.132.98.95:8081/repository/what-front/"}'"
+        writeFile file: 'publish.sh', text:
+        "sed -i 's/"index.js",/"index.js", "publishConfig":{"registry": "http:\/\/34.132.98.95:8081\/repository\/what-front\/"},/' package.json"
+        sh 'bash publish.sh'
+        sh 'ls -alh'
+        sh 'npm version patch'
+        sh 'npm pack'
+        sh 'ls -alh'
       }
     }
   }
