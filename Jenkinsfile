@@ -4,11 +4,11 @@ pipeline {
     nodejs "node"
   }
   stages {
-    stage ('clone-sources') {
-      steps {
-        git url: 'https://github.com/dmytrozuyenko/what-front.git'
-      }
-    }
+//     stage ('clone-sources') {
+//       steps {
+//         git url: 'https://github.com/dmytrozuyenko/what-front.git'
+//       }
+//     }
     stage('build') {
       steps {
         sh 'npm install'
