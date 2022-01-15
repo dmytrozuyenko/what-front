@@ -44,7 +44,7 @@ pipeline {
         sh 'npm publish --registry http://34.132.98.95:8081/repository/what-front/'
         sh 'ls -alh'
       }
-    
+    }
 // Working:
     
 //     stage('sonarqube-analysis') {
