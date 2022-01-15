@@ -68,10 +68,12 @@ pipeline {
 // In progress.    
     stage('deploy') { 
       steps {
-        sshagent(credentials: ['sonatype-nexus_admin']) {
-        sh('scp http://34.132.98.95:8081/repository/what-front/what/-/what-1.0.0.tgz /var/lib/jenkins/workspace/what-front_dev/build-what-1.0.0.tgz')
-//          sudo scp -i ~/Projects/SoftServe/task/security/softserve-task /home/dmytro/Projects/SoftServe/task/nginx/what-front.conf  dmytrozuyenko@35.209.108.208:/home/dmytrozuyenko/what-front/nginx/
-        }
+        sh 'wget -O build.tgz --user user --password 2XpMULmX http://34.132.98.95:8081/repository/what-front/what/-/what-1.0.0.tgz'
+        
+//         sshagent(credentials: ['sonatype-nexus_admin']) {
+//         sh('scp http://34.132.98.95:8081/repository/what-front/what/-/what-1.0.0.tgz /var/lib/jenkins/workspace/what-front_dev/build-what-1.0.0.tgz')
+// //          sudo scp -i ~/Projects/SoftServe/task/security/softserve-task /home/dmytro/Projects/SoftServe/task/nginx/what-front.conf  dmytrozuyenko@35.209.108.208:/home/dmytrozuyenko/what-front/nginx/
+//         }
       }  
     }
 //     stage('publish') { 
