@@ -29,6 +29,7 @@ pipeline {
 //         sh 'npm version patch -no-git-tag-version --force'
 // //         sh 'echo -e "registry=http://34.132.98.95:8081/repository/what-front/:always-auth=true\n_authToken=NpmToken.509dae5d-ce59-3972-9008-e89b3330aef8" >> .npmrc'
         sh 'echo -e "registry=http://34.132.98.95:8081/repository/what-front/\n_authToken=NpmToken.509dae5d-ce59-3972-9008-e89b3330aef8" > .npmrc'
+        sh 'cat .npmrc'
 //         sh 'echo -e "//34.132.98.95:8081/:_password:6gYv6xC5" >> .npmrc'
 //         sh 'echo "//34.132.98.95:8081/:username:admin" >> .npmrc'
 //         sh 'echo "//34.132.98.95:8081/:email:d.zuyenko@gmail.com" >> .npmrc'
@@ -37,8 +38,7 @@ pipeline {
 //         sh 'echo -e 'admin\n6gYv6xC5\nd.zuyenko@gmail.com' | npm login -e d.zuyenko@gmail.com -r http://34.132.98.95:8081/repository/what-front'
 //         sh 'rm .npmrc'
         sh 'npm install -g npm-cli-login'
-           sh 'npm-cli-login -r http://34.132.98.95:8081/repository/what-front/ -u user -p 2XpMULmX -e d.zuyenko@gmail.com'
-//         sh 'cat .npmrc'
+        sh 'npm-cli-login -r http://34.132.98.95:8081/repository/what-front/ -u user -p 2XpMULmX -e d.zuyenko@gmail.com
         sh 'npm publish --registry http://34.132.98.95:8081/repository/what-front/'
         sh 'ls -alh'
       }
@@ -53,6 +53,13 @@ pipeline {
 //         }
 //       }
 //     }
+//      stage("Quality Gate") {
+//        steps {
+// //          timeout(time: 1, unit: 'HOURS') {
+//            waitForQualityGate abortPipeline: true
+// //          }
+//        }
+//      }
 //     stage('publish') { 
 //       steps {
 //         sh 'echo -e "registry=http://34.132.98.95:8081/repository/what-front-group/\n_authToken=NpmToken.509dae5d-ce59-3972-9008-e89b3330aef8" >> .npmrc'
