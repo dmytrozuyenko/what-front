@@ -77,8 +77,8 @@ pipeline {
 //         sh('scp http://34.132.98.95:8081/repository/what-front/what/-/what-1.0.0.tgz /var/lib/jenkins/workspace/what-front_dev/build-what-1.0.0.tgz')
 // //          sudo scp -i ~/Projects/SoftServe/task/security/softserve-task /home/dmytro/Projects/SoftServe/task/nginx/what-front.conf  dmytrozuyenko@35.209.108.208:/home/dmytrozuyenko/what-front/nginx/
 //         }
-      }  
-    }
+//       }  
+//     }
     stage('Example') {
       steps {
         sh('wget -u $WHAT-FRONT_CREDS_USR:$WHAT-FRONT_CREDS_PSW http://34.132.98.95:8081/repository/what-front/what/-/what-1.0.0.tgz')
