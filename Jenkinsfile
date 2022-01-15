@@ -11,7 +11,7 @@ pipeline {
 //         sh 'bash cleanup.sh'
 //       }
 //     }
-//     stage ('clone-sources') {
+//     stage ('scm') {
 //       steps {
 //         git url: 'https://github.com/dmytrozuyenko/what-front.git'
 //       }
@@ -43,16 +43,16 @@ pipeline {
         sh 'ls -alh'
       }
     }  
-    stage('sonarqube-analysis') {
-      steps {
-        script {
-          def scannerHome = tool 'sonarqube';
-          withSonarQubeEnv('sonarqube') {
-            sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=what-front"
-          }
-        }
-      }
-    }
+//     stage('sonarqube-analysis') {
+//       steps {
+//         script {
+//           def scannerHome = tool 'sonarqube';
+//           withSonarQubeEnv('sonarqube') {
+//             sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=what-front"
+//           }
+//         }
+//       }
+//     }
 //     stage('publish') { 
 //       steps {
 //         sh 'echo -e "registry=http://34.132.98.95:8081/repository/what-front-group/\n_authToken=NpmToken.509dae5d-ce59-3972-9008-e89b3330aef8" >> .npmrc'
