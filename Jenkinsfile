@@ -1,8 +1,5 @@
 pipeline {
   agent any
-  environment {
-        WHAT-FRONT_CREDS = credentials('sonatype-nexus_admin')
-  }
   tools {
     nodejs "node"
   }
@@ -81,7 +78,9 @@ pipeline {
 //     }
     stage('Example') {
       steps {
-        sh('wget -u $WHAT-FRONT_CREDS_USR:$WHAT-FRONT_CREDS_PSW http://34.132.98.95:8081/repository/what-front/what/-/what-1.0.0.tgz')
+        sshagent(credentials: ['ssh-key-gcp']) {
+          sh 'ssh dmytrozuyenko@35.206.94.245 "mkdir -p /home/dmytrozuyenko/test/"'
+        }
       }
     }
 //     stage('publish') { 
