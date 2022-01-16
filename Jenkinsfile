@@ -88,13 +88,23 @@ pipeline {
 //       }
 //     }
 
+  // Waiting to input PassPhrase
+//        stage('Example') {
+//          steps {
+//            withCredentials([sshUserPrivateKey(credentialsId: "ssh-key-gcp", keyFileVariable: 'keyfile')]) {
+//              sh "scp -i ${keyfile} /var/lib/jenkins/workspace/what-front_dev/what-1.0.0.tgz dmytrozuyenko@35.209.108.208:/home/dmytrozuyenko/what-front/dist/"
+//            }
+//          }  
+//        }
+ 
        stage('Example') {
          steps {
-           withCredentials([sshUserPrivateKey(credentialsId: "ssh-key-gcp", keyFileVariable: 'keyfile')]) {
-             sh "scp -i ${keyfile} /var/lib/jenkins/workspace/what-front_dev/what-1.0.0.tgz dmytrozuyenko@35.209.108.208:/home/dmytrozuyenko/what-front/dist/"
+           sshagent(['my-ssh-key']) {
+             sh 'scp /var/lib/jenkins/workspace/what-front_dev/what-1.0.0.tgz dmytrozuyenko@35.209.108.208:/home/dmytrozuyenko/what-front/dist/'
            }
          }  
        }
+
    
 //     stage('publish') { 
 //       steps {
