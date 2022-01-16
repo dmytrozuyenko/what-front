@@ -99,8 +99,10 @@ pipeline {
  
        stage('Example') {
          steps {
-           sshagent(['ssh-key-gcp']) {
-             sh 'scp /var/lib/jenkins/workspace/what-front_dev/what-1.0.0.tgz dmytrozuyenko@35.209.108.208:/home/dmytrozuyenko/what-front/dist/'
+//            sshagent(['ssh-key-gcp']) {
+//              sh 'scp /var/lib/jenkins/workspace/what-front_dev/what-1.0.0.tgz dmytrozuyenko@35.209.108.208:/home/dmytrozuyenko/what-front/dist/'
+           sshagent(['dmytrozuyenko-gcp']) {           
+             sh 'ssh dmytrozuyenko@35.206.94.245 "pwd"'
            }
          }  
        }
