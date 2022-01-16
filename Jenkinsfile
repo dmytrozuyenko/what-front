@@ -76,14 +76,25 @@ pipeline {
 //         }
 //       }  
 //     }
-    stage('Example') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'dmytrozuyenko-gcp', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-          sh 'ssh dmytrozuyenko@35.206.94.245 "pwd"'
-          sh 'scp http://34.132.98.95:8081/repository/what-front/what/-/what-1.0.0.tgz dmytrozuyenko@35.209.108.208:/home/dmytrozuyenko/what-front/'
-        }
-      }
-    }
+    
+    // Install sshpass???
+    
+//     stage('Example') {
+//       steps {
+//         withCredentials([usernamePassword(credentialsId: 'dmytrozuyenko-gcp', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+//           sh 'ssh dmytrozuyenko@35.206.94.245 "pwd"'
+//           sh 'scp http://34.132.98.95:8081/repository/what-front/what/-/what-1.0.0.tgz dmytrozuyenko@35.209.108.208:/home/dmytrozuyenko/what-front/'
+//         }
+//       }
+//     }
+
+       stage('Example') {
+         steps {
+           withCredentials([sshUserPrivateKey(credentialsId: "ssh-key-gcp", keyFileVariable: 'keyfile')]) {
+             sh "scp -i ${keyfile} /var/lib/jenkins/workspace/what-front_dev/what-1.0.0.tgz dmytrozuyenko@35.209.108.208:/home/dmytrozuyenko/what-front/dist/"
+         }
+       }
+   
 //     stage('publish') { 
 //       steps {
 //         sh 'echo -e "registry=http://34.132.98.95:8081/repository/what-front-group/\n_authToken=NpmToken.509dae5d-ce59-3972-9008-e89b3330aef8" >> .npmrc'
