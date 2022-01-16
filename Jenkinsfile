@@ -78,8 +78,9 @@ pipeline {
 //     }
     stage('Example') {
       steps {
-        sshagent(credentials: ['ssh-key-gcp']) {
-          sh 'ssh dmytrozuyenko@35.206.94.245 "mkdir -p /home/dmytrozuyenko/test/"'
+        withCredentials([usernamePassword(credentialsId: 'dmytrozuyenko-gcp', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+          sh 'ssh dmytrozuyenko@35.206.94.245 "pwd"'
+          sh 'scp http://34.132.98.95:8081/repository/what-front/what/-/what-1.0.0.tgz dmytrozuyenko@35.209.108.208:/home/dmytrozuyenko/what-front/'
         }
       }
     }
