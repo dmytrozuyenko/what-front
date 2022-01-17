@@ -3,6 +3,10 @@ pipeline {
   tools {
     nodejs "node"
   }
+//   environment (
+//     AWS_ACCESS_KEY_ID = credentials('aws-auth')
+//     AWS_SECRET_ACCESS_KEY= credentials('aws-auth')
+//   }
   stages {
 //     stage ('cleanup') {
 //       steps {
@@ -123,7 +127,7 @@ pipeline {
          steps {
 //            withCredentials([sshUserPrivateKey(credentialsId: "aws-key", keyFileVariable: 'keyfile')]) {
 //              sh 'scp -i ${keyfile} /var/lib/jenkins/workspace/what-front_dev/build.tgz ubuntu@3.144.93.224:/home/ubuntu/what-front/dist'
-             sh 'ssh -i /home/dmytrozuyenko/.ssh/SoftServe-Task.pem ubuntu@3.144.93.224 "pwd"' 
+             sh 'ssh -i /var/lib/jenkins/.ssh/SoftServe-Task.pem ubuntu@3.144.93.224 "pwd"' 
 //            }
          }
        }
