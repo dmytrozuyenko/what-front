@@ -66,7 +66,7 @@ pipeline {
 //      }
     
 // In progress.    
-//     stage('deploy') { 
+//     stage('pull') { 
 //       steps {
 //         sh 'wget -O build.tgz --user admin --password 6gYv6xC5 http://34.132.98.95:8081/repository/what-front/what/-/what-1.0.0.tgz'
         
@@ -107,19 +107,26 @@ pipeline {
 //        }
     
     
-       stage('deploy') {
+//        stage('deploy') {
+//          steps {
+//            withCredentials([[
+//              $class: 'AmazonWebServicesCredentialsBinding',
+//              credentialsId: "aws-auth",
+//              accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+//              secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+//              sh 'scp /var/lib/jenkins/workspace/what-front_dev/build.tgz ubuntu@3.144.93.224:/home/ubuntu/what-front/dist'
+//            }
+//          }
+//        }
+    
+       stage('Example') {
          steps {
-           withCredentials([[
-             $class: 'AmazonWebServicesCredentialsBinding',
-             credentialsId: "aws-auth",
-             accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-             secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-             sh 'ssh-keygen -R 3.144.93.224'
-             sh 'scp /var/lib/jenkins/workspace/what-front_dev/build.tgz ubuntu@3.144.93.224:/home/ubuntu/what-front/dist'
+           withCredentials([sshUserPrivateKey(credentialsId: "aws-key", keyFileVariable: 'keyfile')]) {
+             sh 'scp -i ${keyfile} /var/lib/jenkins/workspace/what-front_dev/build.tgz ubuntu@3.144.93.224:/home/ubuntu/what-front/dist'
            }
          }
        }
-   
+            
 //     stage('publish') { 
 //       steps {
 //         sh 'echo -e "registry=http://34.132.98.95:8081/repository/what-front-group/\n_authToken=NpmToken.509dae5d-ce59-3972-9008-e89b3330aef8" >> .npmrc'
