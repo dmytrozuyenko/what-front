@@ -111,7 +111,7 @@ pipeline {
          steps {
            withCredentials([[
              $class: 'AmazonWebServicesCredentialsBinding',
-             credentialsId: "credentials-id-here",
+             credentialsId: "aws-auth",
              accessKeyVariable: 'AWS_ACCESS_KEY_ID',
              secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
                sh 'scp /var/lib/jenkins/workspace/what-front_dev/build.tgz ubuntu@3.144.93.224:/home/ubuntu/what-front/dist'
