@@ -96,18 +96,22 @@ pipeline {
 //            }
 //          }  
 //        }
- 
-       stage('Example') {
-         steps {
-           sh 'ssh-keygen -R 35.206.94.245'
+ // Hanging too
+//        stage('Example') {
+//          steps {
 //            sshagent(['ssh-key-gcp']) {
 //              sh 'scp /var/lib/jenkins/workspace/what-front_dev/what-1.0.0.tgz dmytrozuyenko@35.209.108.208:/home/dmytrozuyenko/what-front/dist/'
-           withCredentials([usernamePassword(credentialsId: 'dmytrozuyenko-gcp', passwordVariable: 'PASS', usernameVariable: 'USER')]) {       
-             sh 'ssh dmytrozuyenko@35.206.94.245 "pwd"'
-           }
-         }  
+//            }
+//          }  
+//        }
+    
+    
+       stage('Example') {
+         steps {
+           sh 'curl -u dmytrozuyenko:User0000 -T /var/lib/jenkins/workspace/what-front_dev/what-1.0.0.tgz sftp://35.209.108.208:22/what-1.0.0.tgz'
+         }
        }
-
+    
    
 //     stage('publish') { 
 //       steps {
