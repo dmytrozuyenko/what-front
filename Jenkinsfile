@@ -83,19 +83,20 @@ pipeline {
 //       steps {
 //         withCredentials([usernamePassword(credentialsId: 'dmytrozuyenko-gcp', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
 //           sh 'ssh dmytrozuyenko@35.206.94.245 "pwd"'
-//           sh 'scp http://34.132.98.95:8081/repository/what-front/what/-/what-1.0.0.tgz dmytrozuyenko@35.209.108.208:/home/dmytrozuyenko/what-front/'
+//           sh 'scp http://34.132.98.95:8081/repository/what-front/what/-/what-1.0.0.tgz dmytrozuyenko@35.206.94.245:/home/dmytrozuyenko/what-front/'
 //         }
 //       }
 //     }
 
   // Waiting to input PassPhrase
-//        stage('Example') {
-//          steps {
-//            withCredentials([sshUserPrivateKey(credentialsId: "ssh-key-gcp", keyFileVariable: 'keyfile')]) {
-//              sh "scp -i ${keyfile} /var/lib/jenkins/workspace/what-front_dev/what-1.0.0.tgz dmytrozuyenko@35.209.108.208:/home/dmytrozuyenko/what-front/dist/"
-//            }
-//          }  
-//        }
+       stage('Example') {
+         steps {
+           withCredentials([sshUserPrivateKey(credentialsId: "ssh-key-gcp", keyFileVariable: 'keyfile')]) {
+             sh 'ssh dmytrozuyenko@35.206.94.245 "pwd"'
+             sh 'scp -i ${keyfile} /var/lib/jenkins/workspace/what-front_dev/build.tgz dmytrozuyenko@35.206.94.245:/home/dmytrozuyenko/what-front/dist/'
+           }
+         }  
+       }
  // Hanging too
 //        stage('Example') {
 //          steps {
@@ -106,11 +107,11 @@ pipeline {
 //        }
     
     
-       stage('Example') {
-         steps {
-           sh 'curl -u dmytrozuyenko:User0000 -T /var/lib/jenkins/workspace/what-front_dev/what-1.0.0.tgz sftp://35.209.108.208:22/what-1.0.0.tgz'
-         }
-       }
+//        stage('Example') {
+//          steps {
+//            sh 'curl -u dmytrozuyenko:User0000 -T /var/lib/jenkins/workspace/what-front_dev/what-1.0.0.tgz sftp://35.209.108.208:22/what-1.0.0.tgz'
+//          }
+//        }
     
    
 //     stage('publish') { 
