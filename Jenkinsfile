@@ -109,10 +109,13 @@ pipeline {
     
        stage('deploy') {
          steps {
-           withCredentials([usernamePassword(credentialsId: 'aws-auth', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-             sh 'echo $AWS_ACCESS_KEY_ID'
-             sh 'echo $AWS_SECRET_ACCESS_KEY'
-             sh 'scp -i /home/dmytrozuyenko/.ssh/SoftServe-Task.pem /var/lib/jenkins/workspace/what-front_dev/build.tgz ubuntu@3.144.93.224:/home/ubuntu/what-front/dist'
+           withCredentials([[
+             $class: 'AmazonWebServicesCredentialsBinding',
+             credentialsId: "credentials-id-here",
+             accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+             secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+               sh 'scp /var/lib/jenkins/workspace/what-front_dev/build.tgz ubuntu@3.144.93.224:/home/ubuntu/what-front/dist'
+             }
            }
          }
        }
