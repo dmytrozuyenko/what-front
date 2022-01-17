@@ -124,7 +124,7 @@ pipeline {
 //            withCredentials([sshUserPrivateKey(credentialsId: "aws-key", keyFileVariable: 'keyfile')]) {
 //              sh 'scp -i ${keyfile} /var/lib/jenkins/workspace/what-front_dev/build.tgz ubuntu@3.144.93.224:/home/ubuntu/what-front/dist'
              sh 'whoami' 
-           }
+//            }
          }
        }
             
