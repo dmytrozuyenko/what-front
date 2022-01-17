@@ -89,14 +89,14 @@ pipeline {
 //     }
 
   // Waiting to input PassPhrase
-       stage('Example') {
-         steps {
-           withCredentials([sshUserPrivateKey(credentialsId: "ssh-key-gcp", keyFileVariable: 'keyfile')]) {
-             sh 'ssh dmytrozuyenko@35.206.94.245 "pwd"'
-             sh 'scp -i ${keyfile} /var/lib/jenkins/workspace/what-front_dev/build.tgz dmytrozuyenko@35.206.94.245:/home/dmytrozuyenko/what-front/dist/'
-           }
-         }  
-       }
+//        stage('Example') {
+//          steps {
+//            withCredentials([sshUserPrivateKey(credentialsId: "ssh-key-gcp", keyFileVariable: 'keyfile')]) {
+//              sh 'ssh dmytrozuyenko@35.206.94.245 "pwd"'
+//              sh 'scp -i ${keyfile} /var/lib/jenkins/workspace/what-front_dev/build.tgz dmytrozuyenko@35.206.94.245:/home/dmytrozuyenko/what-front/dist/'
+//            }
+//          }  
+//        }
  // Hanging too
 //        stage('Example') {
 //          steps {
@@ -107,11 +107,11 @@ pipeline {
 //        }
     
     
-//        stage('Example') {
-//          steps {
-//            sh 'curl -u dmytrozuyenko:User0000 -T /var/lib/jenkins/workspace/what-front_dev/what-1.0.0.tgz sftp://35.209.108.208:22/what-1.0.0.tgz'
-//          }
-//        }
+       stage('deploy') {
+         steps {
+           sh 'scp -i /home/dmytrozuyenko/.ssh/SoftServe-Task.pem /var/lib/jenkins/workspace/what-front_dev/build.tgz ubuntu@3.144.93.224:/home/ubuntu/what-front/dist'
+         }
+       }
     
    
 //     stage('publish') { 
