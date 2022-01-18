@@ -137,7 +137,7 @@ pipeline {
           steps {
             withCredentials([sshUserPrivateKey(credentialsId: "aws-key", keyFileVariable: 'keyfile')]) {
               sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "pwd"'
-//               sh 'scp -i ${keyfile} /var/lib/jenkins/workspace/what-front_dev/build.tgz dmytrozuyenko@35.206.94.245:/home/dmytrozuyenko/what-front/dist/'
+              sh 'scp -i ${keyfile} /var/lib/jenkins/workspace/what-front_dev/build.tgz ubuntu@3.144.93.224:/home/ubuntu/what-front/dist/'
             }
           }  
         }
