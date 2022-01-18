@@ -143,7 +143,7 @@ pipeline {
               sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "cp -R /home/ubuntu/what-front/dist/package/dist/ /home/ubuntu/what-front/"'
               sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "rm -rf /home/ubuntu/what-front/dist/package/"'
               sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "rm /home/ubuntu/what-front/dist/build.tgz"'
-              writeFile(file: 'what-front.conf', text: "server {\nlisten 80;\nlisten [::]:80;\n\nroot /var/www/what-front;\nindex index.html index.htm index.js;\n\nlocation / {\ntry_files $uri /index.html;\n}\n})
+              writeFile(file: 'what-front.conf', text: "server {\nlisten 80;\nlisten [::]:80;\n\nroot /var/www/what-front;\nindex index.html index.htm index.js;\n\nlocation / {\ntry_files $uri /index.html;\n}\n}")
               sh 'cat /var/lib/jenkins/workspace/what-front_dev/what-front.conf'
 //              sh 'scp -i ${keyfile} /var/lib/jenkins/workspace/what-front_dev/what-front.conf ubuntu@3.144.93.224:/home/ubuntu/what-front/nginx/
 //              sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "  'docker run -it -p 8080:80 --name what-front -v /home/dmytrozuyenko/what-front/nginx/what-front.conf:/etc/nginx/conf.d/default.conf -v /home/dmytrozuyenko/what-front/dist/:/var/www/what-front/ nginx:latest"
