@@ -18,7 +18,7 @@ pipeline {
     stage('publish') { 
       steps {
         withCredentials([string(credentialsId: 'sonarqube-token', variable: 'token')]) {
-          sh 'echo "registry=http://34.132.98.95:8081/repository/what-front/\n_authToken=&{token}" > .npmrc'
+          sh 'echo "registry=http://34.132.98.95:8081/repository/what-front/\n_authToken=${token}" > .npmrc'
         }
         sh 'cat .npmrc'
         sh 'npm install -g npm-cli-login'
