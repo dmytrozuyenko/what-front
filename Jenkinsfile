@@ -7,9 +7,17 @@ pipeline {
     stage('build') {
       steps {
         sh 'npm install'
-//         sh 'npm test'
+//         sh 'npm run test'
         sh 'echo "/*\n!dist/*" > .npmignore'
         sh 'npm run build'
+      }  
+    }
+    
+    stage('test') {
+      steps {
+        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+          sh 'npm run test'
+        }
       }  
     }
     
