@@ -44,6 +44,7 @@ pipeline {
           withSonarQubeEnv('sonarqube') {
             sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=what-front -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
           }
+          sh 'cp -R /var/lib/jenkins/workspace/what-front_dev/coverage/ /var/lib/jenkins/userContent/'
         }
       }
     }
