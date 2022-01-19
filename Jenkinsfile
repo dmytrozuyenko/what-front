@@ -4,7 +4,7 @@ pipeline {
     nodejs "node"
   }
   stages {
-    stage('build') {
+    stage('build') { //
       steps {
         sh 'npm install'
 //         sh 'npm run test'
@@ -42,7 +42,7 @@ pipeline {
         script {
           def scannerHome = tool 'sonarqube';
           withSonarQubeEnv('sonarqube') {
-            sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=what-front"
+            sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=what-front -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
           }
         }
       }
