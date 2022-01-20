@@ -59,15 +59,15 @@ pipeline {
     stage('deploy') {
       steps {
         withCredentials([sshUserPrivateKey(credentialsId: "aws-key", keyFileVariable: 'keyfile')]) {
-          sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "docker rm -f what-front"'
+          sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "sudo systemctl stop nginx"'
           sh 'scp -i ${keyfile} /var/lib/jenkins/workspace/what-front_dev/build.tgz ubuntu@3.144.93.224:/home/ubuntu/what-front/dist/'
           sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "tar zxvf /home/ubuntu/what-front/dist/build.tgz -C /home/ubuntu/what-front/dist/"'
-          sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "ls -alh /home/ubuntu/what-front/dist/"'
-          sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "cp -R /home/ubuntu/what-front/dist/package/dist/ /home/ubuntu/what-front/"'
+          sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "cp -R /home/ubuntu/what-front/dist/package/dist/ /var/www/what-front/"
           sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "rm -rf /home/ubuntu/what-front/dist/package/"'
-          sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "rm /home/ubuntu/what-front/dist/build.tgz"'
-          sh 'scp -i ${keyfile} /var/lib/jenkins/userContent/what-front.conf ubuntu@3.144.93.224:/home/ubuntu/what-front/nginx/what-front.conf'
-          sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "docker run -d -p 8080:80 --name what-front -v /home/ubuntu/what-front/nginx:/etc/nginx/conf.d -v /home/ubuntu/what-front/dist:/var/www/what-front nginx:latest"'
+          sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "rm /home/ubuntu/what-front/dist/build.tgz"'          
+          sh 'scp -i ${keyfile} /var/lib/jenkins/userContent/what-front.conf ubuntu@3.144.93.224:/home/ubuntu/what-front/nginx:/etc/nginx/conf.d/what-front.conf'
+          sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "sudo systemctl start nginx"'
+          sh 'echo "Link to latest coverage report - http://34.123.118.107:8080/userContent/coverage/lcov-report/index.html"'
         }
       }  
     }
