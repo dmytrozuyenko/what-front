@@ -66,7 +66,6 @@ pipeline {
           sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "rm /home/ubuntu/what-front/dist/build.tgz"'
           sh 'scp -i ${keyfile} /var/lib/jenkins/userContent/what-front.conf ubuntu@3.144.93.224:/home/ubuntu/what-front/nginx/'
           sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "sudo cp -R /home/ubuntu/what-front/nginx/* /etc/nginx/sites-enabled/"'
-          sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "sudo rm /etc/nginx/sites-enabled/default"'
           sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "sudo systemctl start nginx"'
         }
       }  
