@@ -44,7 +44,6 @@ pipeline {
           withSonarQubeEnv('sonarqube') {
             sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=what-front -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
           }
-          sh 'cp -R /var/lib/jenkins/workspace/what-front_dev/coverage/ /var/lib/jenkins/userContent/'
         }
       }
     }
@@ -67,8 +66,8 @@ pipeline {
           sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "rm /home/ubuntu/what-front/dist/build.tgz"'
           sh 'scp -i ${keyfile} /var/lib/jenkins/userContent/what-front.conf ubuntu@3.144.93.224:/home/ubuntu/what-front/nginx/'
           sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "sudo cp -R /home/ubuntu/what-front/nginx/* /etc/nginx/sites-enabled/"'
+          sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "sudo rm /etc/nginx/sites-enabled/default"'
           sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "sudo systemctl start nginx"'
-          sh 'echo "Link to latest coverage report - http://34.123.118.107:8080/userContent/coverage/lcov-report/index.html"'
         }
       }  
     }
