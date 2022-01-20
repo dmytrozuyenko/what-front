@@ -76,6 +76,13 @@ pipeline {
   }
   
   post {
+    start {            
+      withCredentials([string(credentialsId: 'telegram-token', variable: 'TOKEN'), string(credentialsId: 'chatid', variable: 'CHAT_ID')]) {
+        sh  ("""
+          curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d text='*${env.JOB_NAME}* : POC *Branch*: ${env.GIT_BRANCH} *New job* : OK *Started* = YES'
+        """)
+      }
+    }
     success {            
       withCredentials([string(credentialsId: 'telegram-token', variable: 'TOKEN'), string(credentialsId: 'chatid', variable: 'CHAT_ID')]) {
         sh  ("""
