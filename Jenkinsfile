@@ -7,7 +7,7 @@ pipeline {
     stage('build') { //
       steps {
         sh 'npm install'
-//         sh 'npm run test'
+        sh 'npm version patch -no-git-tag-version --force'
         sh 'echo "/*\n!dist/*" > .npmignore'
         sh 'npm run build'
       }  
@@ -21,7 +21,7 @@ pipeline {
       }  
     }
     
-//         sh 'npm version patch -no-git-tag-version --force'
+
         
     stage('publish') { 
       steps {
@@ -47,13 +47,13 @@ pipeline {
       }
     }
     
-//     stage("Quality Gate") {
-//       steps {
-//         timeout(time: 1, unit: 'HOURS') {
-//           waitForQualityGate abortPipeline: true
-//         }
-//       }
-//     }
+    stage("Quality Gate") {
+      steps {
+        timeout(time: 1, unit: 'HOURS') {
+          waitForQualityGate abortPipeline: true
+        }
+      }
+    }
 
     stage('deploy') {
       steps {
