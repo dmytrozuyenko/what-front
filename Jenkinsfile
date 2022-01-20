@@ -32,7 +32,6 @@ pipeline {
         withCredentials([usernamePassword(credentialsId: 'sonatype-nexus_admin', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
           sh 'npm-cli-login -r http://34.132.98.95:8081/repository/what-front/ -u ${USER} -p ${PASS} -e d.zuyenko@gmail.com'
           sh 'npm publish --registry http://34.132.98.95:8081/repository/what-front/'
-          sh 'wget -O build.tgz --user ${USER} --password ${PASS} http://34.132.98.95:8081/repository/what-front/what/-/what-1.0.0.tgz'
         }
       }
     }
@@ -58,6 +57,9 @@ pipeline {
 
     stage('deploy') {
       steps {
+        withCredentials([usernamePassword(credentialsId: 'sonatype-nexus_admin', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+          sh 'wget -O build.tgz --user ${USER} --password ${PASS} http://34.132.98.95:8081/repository/what-front/what/-/what-1.0.0.tgz'
+        }
         withCredentials([sshUserPrivateKey(credentialsId: "aws-key", keyFileVariable: 'keyfile')]) {
           sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "sudo systemctl stop nginx"'
           sh 'scp -i ${keyfile} /var/lib/jenkins/workspace/what-front_dev/build.tgz ubuntu@3.144.93.224:/home/ubuntu/what-front/dist/'
