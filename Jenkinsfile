@@ -72,6 +72,7 @@ pipeline {
       }  
     }
   }
+  
 //   post {
 //     success {            
 //       withCredentials([string(credentialsId: 'telegram-token', variable: 'TOKEN'), string(credentialsId: 'chatid', variable: 'CHAT_ID')]) {
