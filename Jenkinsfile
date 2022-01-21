@@ -14,11 +14,13 @@ pipeline {
           def PACKAGEJSON = readJSON file: './package.json'
           VERSION = PACKEAGEJSON.version
         }
-        sh 'npm version patch -no-git-tag-version --force'
+
         withCredentials([usernamePassword(credentialsId: 'github-token', passwordVariable: 'GIT_TOKEN', usernameVariable: 'GIT_USER')]) {
+          sh 'git checkout dev'
+          sh 'npm version patch -no-git-tag-version --force'
           sh 'git add package.json'
           sh 'git commit -m "Updated version"'
-          sh 'git push https://${GIT_USER}:${GIT_TOKEN}@github.com/dmytrozuyenko/what-front.git'
+          sh 'git push --force https://${GIT_USER}:${GIT_TOKEN}@github.com/dmytrozuyenko/what-front.git'
         }
         
         sh 'echo "/*\n!dist/*" > .npmignore'
