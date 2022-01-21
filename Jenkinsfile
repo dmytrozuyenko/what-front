@@ -3,11 +3,24 @@ pipeline {
   tools {
     nodejs "node"
   }
+  environment {
+    VERSION = "1.0.0"
+  }
   stages {
-    stage('build') { //
+    stage('build') {
       steps {
         sh 'npm install'
+        script {
+          def PACKAGEJSON = readJSON file: './package.json'
+          VERSION = PACKEAGEJSON.version
+        }
         sh 'npm version patch -no-git-tag-version --force'
+        withCredentials([usernamePassword(credentialsId: 'github-token', passwordVariable: 'TOKEN', usernameVariable: 'USER')]) {
+          sh 'git add packages.json'
+          sh 'git commit -m "Updated version"'
+          sh'git push https://${USER}:${TOKEN}@github.com/dmytrozuyenko/what-front.git'
+        }
+        
         sh 'echo "/*\n!dist/*" > .npmignore'
         sh 'npm run build'
       }  
@@ -20,8 +33,6 @@ pipeline {
         }
       }  
     }
-    
-
         
     stage('publish') { 
       steps {
@@ -41,7 +52,7 @@ pipeline {
         script {
           def scannerHome = tool 'sonarqube';
           withSonarQubeEnv('sonarqube') {
-            sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=what-front -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
+            sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=what-front -Dsonar.projectVersion=${VERSION} -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
           }
         }
       }
@@ -58,18 +69,18 @@ pipeline {
     stage('deploy') {
       steps {
         withCredentials([usernamePassword(credentialsId: 'sonatype-nexus_admin', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-          sh 'wget -O build.tgz --user ${USER} --password ${PASS} http://34.132.98.95:8081/repository/what-front/what/-/what-1.0.0.tgz'
+          sh 'wget -O what-${VERSION}.tgz --user ${USER} --password ${PASS} http://34.132.98.95:8081/repository/what-front/what/-/what-${VERSION}.tgz'
         }
-        withCredentials([sshUserPrivateKey(credentialsId: "aws-key", keyFileVariable: 'keyfile')]) {
-          sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "sudo systemctl stop nginx"'
-          sh 'scp -i ${keyfile} /var/lib/jenkins/workspace/what-front_dev/build.tgz ubuntu@3.144.93.224:/home/ubuntu/what-front/dist/'
-          sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "tar zxvf /home/ubuntu/what-front/dist/build.tgz -C /home/ubuntu/what-front/dist"'
-          sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "sudo cp -R /home/ubuntu/what-front/dist/package/dist/* /var/www/what-front/"'
-          sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "rm -rf /home/ubuntu/what-front/dist/package/"'
-          sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "rm /home/ubuntu/what-front/dist/build.tgz"'
-          sh 'scp -i ${keyfile} /var/lib/jenkins/userContent/what-front.conf ubuntu@3.144.93.224:/home/ubuntu/what-front/nginx/'
-          sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "sudo cp -R /home/ubuntu/what-front/nginx/* /etc/nginx/sites-enabled/"'
-          sh 'ssh -i ${keyfile} ubuntu@3.144.93.224 "sudo systemctl start nginx"'
+        withCredentials([sshUserPrivateKey(credentialsId: "aws-key", keyFileVariable: 'KEYFILE')]) {
+          sh 'ssh -i ${KEYFILE} ubuntu@3.144.93.224 "sudo systemctl stop nginx"'
+          sh 'scp -i ${KEYFILE} /var/lib/jenkins/workspace/what-front_dev/what-${VERSION}.tgz ubuntu@3.144.93.224:/home/ubuntu/what-front/dist/'
+          sh 'ssh -i ${KEYFILE} ubuntu@3.144.93.224 "tar zxvf /home/ubuntu/what-front/dist/what-${VERSION}.tgz -C /home/ubuntu/what-front/dist"'
+          sh 'ssh -i ${KEYFILE} ubuntu@3.144.93.224 "sudo cp -R /home/ubuntu/what-front/dist/package/dist/* /var/www/what-front/"'
+          sh 'ssh -i ${KEYFILE} ubuntu@3.144.93.224 "rm -rf /home/ubuntu/what-front/dist/package/"'
+          sh 'ssh -i ${KEYFILE} ubuntu@3.144.93.224 "rm /home/ubuntu/what-front/dist/what-${VERSION}.tgz"'
+          sh 'scp -i ${KEYFILE} /var/lib/jenkins/userContent/what-front.conf ubuntu@3.144.93.224:/home/ubuntu/what-front/nginx/'
+          sh 'ssh -i ${KEYFILE} ubuntu@3.144.93.224 "sudo cp -R /home/ubuntu/what-front/nginx/* /etc/nginx/sites-enabled/"'
+          sh 'ssh -i ${KEYFILE} ubuntu@3.144.93.224 "sudo systemctl start nginx"'
         }
       }  
     }
