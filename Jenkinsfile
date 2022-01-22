@@ -10,10 +10,10 @@ pipeline {
     stage('build') {
       steps {
         sh 'npm install'
-        script {
-          def PACKAGEJSON = readJSON file: './package.json'
-          VERSION = PACKEAGEJSON.version
-        }
+//         script {
+//           def PACKAGEJSON = readJSON file: './package.json'
+//           VERSION = PACKEAGEJSON.version
+//         }
 
         withCredentials([usernamePassword(credentialsId: 'github-token', passwordVariable: 'GIT_TOKEN', usernameVariable: 'GIT_USER')]) {
           sh 'git checkout dev'
