@@ -3,9 +3,9 @@ pipeline {
   tools {
     nodejs "node"
   }
-  environment {
-    VERSION = "1.0.0"
-  }
+//   environment {
+//     VERSION = "1.0.0"
+//   }
   stages {
     stage('build') {
       steps {
@@ -28,37 +28,37 @@ pipeline {
       }  
     }
     
-    stage('test') {
-      steps {
-        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-          sh 'npm run test'
-        }
-      }  
-    }
+//     stage('test') {
+//       steps {
+//         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+//           sh 'npm run test'
+//         }
+//       }  
+//     }
         
-    stage('publish') { 
-      steps {
-        withCredentials([string(credentialsId: 'sonatype-nexus_token', variable: 'token')]) {
-          sh 'echo "registry=http://34.132.98.95:8081/repository/what-front/\n_authToken=${token}" > .npmrc'
-        }
-        sh 'npm install -g npm-cli-login'
-        withCredentials([usernamePassword(credentialsId: 'sonatype-nexus_admin', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-          sh 'npm-cli-login -r http://34.132.98.95:8081/repository/what-front/ -u ${USER} -p ${PASS} -e d.zuyenko@gmail.com'
-          sh 'npm publish --registry http://34.132.98.95:8081/repository/what-front/'
-        }
-      }
-    }
+//     stage('publish') { 
+//       steps {
+//         withCredentials([string(credentialsId: 'sonatype-nexus_token', variable: 'token')]) {
+//           sh 'echo "registry=http://34.132.98.95:8081/repository/what-front/\n_authToken=${token}" > .npmrc'
+//         }
+//         sh 'npm install -g npm-cli-login'
+//         withCredentials([usernamePassword(credentialsId: 'sonatype-nexus_admin', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+//           sh 'npm-cli-login -r http://34.132.98.95:8081/repository/what-front/ -u ${USER} -p ${PASS} -e d.zuyenko@gmail.com'
+//           sh 'npm publish --registry http://34.132.98.95:8081/repository/what-front/'
+//         }
+//       }
+//     }
     
-    stage('sonarqube-analysis') {
-      steps {
-        script {
-          def scannerHome = tool 'sonarqube';
-          withSonarQubeEnv('sonarqube') {
-            sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=what-front -Dsonar.projectVersion=${VERSION} -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
-          }
-        }
-      }
-    }
+//     stage('sonarqube-analysis') {
+//       steps {
+//         script {
+//           def scannerHome = tool 'sonarqube';
+//           withSonarQubeEnv('sonarqube') {
+//             sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=what-front -Dsonar.projectVersion=${VERSION} -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
+//           }
+//         }
+//       }
+//     }
     
 //     stage("Quality Gate") {
 //       steps {
